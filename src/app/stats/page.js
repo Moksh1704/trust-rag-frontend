@@ -21,7 +21,7 @@ export default function StatsPage() {
 
         const response =
           await axios.get(
-            'http://localhost:3000/api/stats'
+            `${process.env.NEXT_PUBLIC_API_URL}/api/stats`
           );
 
         setStats(

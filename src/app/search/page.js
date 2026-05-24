@@ -23,7 +23,7 @@ export default function SearchPage() {
 
       const response =
         await axios.post(
-          'http://localhost:3000/api/retrieve',
+          `${process.env.NEXT_PUBLIC_API_URL}/api/retrieve`,
           { query }
         );
 

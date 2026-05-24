@@ -23,7 +23,7 @@ export default function HomePage() {
 
       const response =
         await axios.post(
-          'http://localhost:3000/api/scrape',
+          `${process.env.NEXT_PUBLIC_API_URL}/api/scrape`,
           { url }
         );
 
