@@ -2,20 +2,20 @@
 
 import { useState } from 'react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
+import Navbar from '../../components/Navbar';
 
-export default function HomePage() {
+export default function SearchPage() {
 
-  const [url, setUrl] =
+  const [query, setQuery] =
     useState('');
 
-  const [result, setResult] =
+  const [results, setResults] =
     useState(null);
 
   const [loading, setLoading] =
     useState(false);
 
-  const handleScrape = async () => {
+  const handleSearch = async () => {
 
     try {
 
@@ -23,11 +23,11 @@ export default function HomePage() {
 
       const response =
         await axios.post(
-          'http://localhost:3000/api/scrape',
-          { url }
+          'http://localhost:3000/api/retrieve',
+          { query }
         );
 
-      setResult(response.data);
+      setResults(response.data);
 
     } catch (error) {
 
@@ -53,14 +53,13 @@ export default function HomePage() {
 
           <h1 className="text-6xl font-bold mb-6">
 
-            Trust RAG System
+            Semantic Vector Search
 
           </h1>
 
           <p className="text-gray-600 text-lg mb-10">
 
-            Multi-source AI retrieval backend with semantic vector search,
-            chunking, metadata enrichment, and hallucination evaluation.
+            Query the vector store using semantic similarity retrieval.
 
           </p>
 
@@ -68,28 +67,28 @@ export default function HomePage() {
 
             <input
               type="text"
-              placeholder="Enter article/blog/PubMed URL"
-              value={url}
+              placeholder="Search semantic chunks..."
+              value={query}
               onChange={(e) =>
-                setUrl(e.target.value)
+                setQuery(e.target.value)
               }
               className="flex-1 p-5 rounded-2xl border border-gray-300 bg-white outline-none text-lg shadow-sm"
             />
 
             <button
-              onClick={handleScrape}
+              onClick={handleSearch}
               className="px-8 py-5 rounded-2xl bg-black text-white font-semibold hover:bg-gray-800 transition"
             >
 
               {loading
-                ? 'Processing...'
-                : 'Scrape'}
+                ? 'Searching...'
+                : 'Search'}
 
             </button>
 
           </div>
 
-          {result && (
+          {results && (
 
             <div className="bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden">
 
@@ -97,13 +96,13 @@ export default function HomePage() {
 
                 <h2 className="text-2xl font-bold">
 
-                  JSON Output
+                  Retrieval Results
 
                 </h2>
 
                 <span className="text-gray-500">
 
-                  Retrieval Metadata
+                  JSON Response
 
                 </span>
 
@@ -112,7 +111,7 @@ export default function HomePage() {
               <pre className="p-6 overflow-x-auto text-sm text-orange-600 leading-7">
 
                 {JSON.stringify(
-                  result,
+                  results,
                   null,
                   2
                 )}
